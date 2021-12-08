@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      /* My CSS code  */
+      body{
+          background-color: #fff8c5;
+          font-family: Verdana;
+      }
+      title{
+        margin: 0 auto;
+        
+          font-size: 36px;
+          color: rgb(24, 255, 255);
+          text-align:center;
+
+      }
+      .tit{
+        text-align:center;
+        margin: 0 auto;
+      }
+      .mess{
+        
+        background-color: #ffffff;
+          border: 1px solid #000;
+        /* float: left; */
+          width: 70%;
+          margin: 0 auto;
+          padding: 2%;
+          text-align:center;
+      } 
+      .mess2{
+          background-color: #dfdfdf;
+          height: 120px;
+          width: 80%;
+          margin: 5%;
+          padding: 5%;
+      }
+      .btn{
+        background-color: #00c8fa; 
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px      ;
+        border-radius: 8px;
+        border: 2px solid #05fd26;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+      }
+      .btn:hover {
+        background-color: #af4c6d; 
+        color: white;
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.40), 0 20px 50px 0 rgba(0,0,0,0.19);
+      }
+      .ipt{
+        background-color: #fafafa; 
+        border-radius: 8px;
+        height: 30px;
+      }
+      .span-1{
+        font-size: 15px;
+        color: rgb(0, 243, 170);
+      }
+      .span-2{
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+      }
+      .disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.user{
+  margin: 0 auto;
+  text-align:center
+}
+      
+      #errors li{
+          color: #ff0000;
+      }
+
+      
+      
+  </style>
+    <title class="tit">Chat Room</title>
+</head>
+<body>
+  <h1 class="tit">Chat Room</h1>
+  <div id="mocha"></div>
+    
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+  <script class="mocha-test">
+      mocha.setup('tdd');
+     // mocha.checkLeaks();
+  </script>
+  
+  <script src="mytest.js"></script>
+  
+  <script class="mocha-exec">
+    // mocha.run();
+  </script>
+<div class="user">
+    <input type="text" id="name" class="ipt">
+    <button id="setname" class="btn">加入聊天</button>
+
+    <input type="text" id="text" class="ipt">
+    <button id="btn" type="button" class="btn">发送</button> 
+  </div>
+<br>
+    <!-- <button id="btn2" type="button" class="btn">历史记录</button> -->
+
+    <div id="container" class="mess">
+      
+
+    </div>
+   <script>
+    //  var MongoClient = require('mongodb').MongoClient;
+    //  var url = "mongodb://localhost:27017/";
+    
+        var ws=null;
+        
+       document.getElementById('setname').onclick = function() {
+         var name = document.getElementById('name').value;
+         var time1= new Date().format("yyyy/MM/dd hh:mm:ss");
+          if(name === '')return console.log("名字为空");
+           
+          ws = new WebSocket('ws://localhost:8888');
+           
+          //在建立连接时会触发
+           ws.onopen = function(){
+            //向服务器发送消息()
+            ws.send(JSON.stringify({
+                name:name,
+                time:time1,
+                type:'setname'
+            }));
+
+            // ws.send(JSON.stringify({
+            //     time:time1,
+            //     type:'date'
+            // }));
+          }
+
+            document.getElementById('btn').onclick = send;
+            document.getElementById('text').onkeyup = function(e) {
+                if(e.keyCode !== 13) return;
+                send();
+            }
+
+//             document.getElementById('btn2').onclick =function(e){
+//               MongoClient.connect(url, function(err, db) {
+//     if (err) throw err;
+//     var dbo = db.db("runoob");
+//     dbo.collection("site"). find({}).toArray(function(err, result) { // 返回集合中所有数据
+//         if (err) throw err;
+//         console.log(result);
+//         db.close();
+//     });
+// });
+//             }
+             
+       
+       //自动接收服务器返回的数据
+       //e代表一个事件  
+       ws.onmessage = function(e){   
+          var con = document.getElementById('container');
+        
+          //insertBefore(要插入的内容，要插入的位置之前)
+         con.insertBefore(createChatPanel(JSON.parse(e.data)),con.children[0]);
+       }
+       //将加入房间按钮设置不可用（只能加入一次）
+       document.getElementById('setname').setAttribute('disabled',true);
+       document.getElementById('name').setAttribute('disabled',true);
+      // console.log('Hello World!');
+    }
+
+      function createChatPanel(data) {
+            var name = data.name;
+            var text = data.text;
+            var time = data.time;
+
+            var div = document.createElement('div');
+            var span1= document.createElement('span1');
+            var span2= document.createElement('span2');
+
+            //span1.innerHTML = name + ' ' + new Date().format("yyyy/MM/dd hh:mm:ss");
+            span1.innerHTML = name + ' ' + time;
+            span2.innerHTML = text;
+
+           // span1.style.color = '#00f';
+            span2.style.fontWeight = '900';
+
+            //span2.id="a";
+
+            
+
+            div.appendChild(span1);
+            div.appendChild(document.createElement('br'));
+            div.appendChild(span2);
+            span2.setAttribute("id",text);
+            span1.setAttribute("class","span-1");
+            span2.setAttribute("class","span-2");
+            return div;
+        }
+        
+         //发送消息
+          function send() {
+            var time2= new Date().format("yyyy/MM/dd hh:mm:ss");
+            var text=document.getElementById('text');
+                if(text.value === '')return;
+                ws.send(JSON.stringify({
+                 text:text.value,
+                 time:time2,
+                 type:"chat"
+            }));             
+          text.value = '';
+          }
+
+    //Date的原型中扩展了format方法，使其可以方便的格式化日期格式输出。
+   Date.prototype.format = function(dtime) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        //"q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        //"S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(dtime)) {
+      dtime=dtime.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(dtime)){
+          dtime = dtime.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return dtime; 
+}     
+    </script>
+</body>
+</html>
