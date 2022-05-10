@@ -15,22 +15,7 @@
             "Fuel_Type: Petrol": {
             "$count": 1
             },
-            "Height: 1510 mm      ": {
-            "$count": 1
-            },
-            "Length: 3884 mm      ": {
-            "$count": 1
-            },
-            "Width: 1695 mm      ": {
-            "$count": 1
-            },
-            "Body_type: Hatchback": {
-            "$count": 1
-            },
-            "City_Mileage: 15.1 km/litre": {
-            "$count": 1
-            },
-            "Kerb_Weight: 895Kg": {
+            "Height: 1510 mm": {
             "$count": 1
             }
         }
