@@ -5,6 +5,33 @@
             "$count": 100,
             "Displacement: 1197cc": {
             "$count": 1
+            },
+            "Cylinders: 4": {
+            "$count": 1
+            },
+            "Fuel_Tank_Capacity: 45": {
+            "$count": 1
+            },
+            "Fuel_Type: Petrol": {
+            "$count": 1
+            },
+            "Height: 1510 mm      ": {
+            "$count": 1
+            },
+            "Length: 3884 mm      ": {
+            "$count": 1
+            },
+            "Width: 1695 mm      ": {
+            "$count": 1
+            },
+            "Body_type: Hatchback": {
+            "$count": 1
+            },
+            "City_Mileage: 15.1 km/litre": {
+            "$count": 1
+            },
+            "Kerb_Weight: 895Kg": {
+            "$count": 1
             }
         }
       
