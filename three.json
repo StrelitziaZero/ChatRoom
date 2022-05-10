@@ -3,13 +3,13 @@
     "$count": 200
     "Etios Liva G": {
     "$count": 200
+  }
   },
-  }，
  "Toyota": {
     "$count": 200
     "Etios Liva G": {
     "$count": 200
-  },
+  }
   }
  
 }
