@@ -17,6 +17,15 @@
             },
             "Height: 1510 mm": {
             "$count": 1
+            },
+            "Length: 3884 mm      ": {
+            "$count": 1
+            },
+            "Width: 1695 mm      ": {
+            "$count": 1
+            },
+            "Body_type: Hatchback": {
+            "$count": 1
             }
         }
       
